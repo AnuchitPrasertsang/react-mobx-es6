@@ -4,6 +4,9 @@
   "main": "index.js",
   "author": "Suzuki Aki <suzuki11109@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "node server.js"
+  },
   "devDependencies": {
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.7",
