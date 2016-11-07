@@ -13,7 +13,13 @@ export default class ViewStore {
     this.currentView = {
       name: 'overview',
       documents: fromPromise(this.fetch('http://localhost:3000/documents'))
-    }
+    };
+  }
+
+  @action showLogin() {
+    this.currentView = {
+      name: 'login'
+    };
   }
 
   @computed get isAuthenticated() {
@@ -21,7 +27,11 @@ export default class ViewStore {
   }
 
   @action showDocument(id) {
-    console.log(`http://localhost:3000/documents/${id}`);
+    if (!this.isAuthenticated) {
+      this.showLogin();
+      return;
+    }
+
     this.currentView = {
       name: 'document',
       id,
@@ -48,6 +58,7 @@ export default class ViewStore {
     switch (this.currentView.name) {
       case 'overview': return '/documents'
       case 'document': return `/documents/${this.currentView.id}`
+      case 'login': return '/login'
     }
   }
 }

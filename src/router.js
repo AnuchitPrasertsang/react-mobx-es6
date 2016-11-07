@@ -5,7 +5,8 @@ import { autorun } from 'mobx';
 export default function startRouter(store) {
   const router = new Router({
     '/documents/:id': (id) => store.showDocument(id),
-    '/documents/': () => store.showOverview()
+    '/documents/': () => store.showOverview(),
+    '/login/': () => store.showLogin()
   }).configure({
     notfound: () => store.showOverview(),
     html5history: true
