@@ -1,5 +1,6 @@
 import { observable, action, computed, autorun } from 'mobx';
 import { fromPromise } from 'mobx-utils';
+import OverviewStore from './overviewStore';
 
 export default class ViewStore {
   @observable currentUser = null;
@@ -10,10 +11,14 @@ export default class ViewStore {
   }
 
   @action showOverview() {
-    this.currentView = {
-      name: 'overview',
-      documents: fromPromise(this.fetch('http://localhost:3000/documents'))
-    };
+    let overviewStore = new OverviewStore(this.fetch);
+    overviewStore.getDocuments().then(() => {
+      console.log('get documents');
+      this.currentView = {
+        name: 'overview',
+        store: observable(overviewStore)
+      };
+    });
   }
 
   @action showLogin() {
@@ -28,6 +33,7 @@ export default class ViewStore {
 
   @action showDocument(id) {
     this.requireLogin(() => {
+
       this.currentView = {
         name: 'document',
         id,
@@ -58,12 +64,12 @@ export default class ViewStore {
   }
 
   @computed get currentPath() {
-    let mapRoutesName = {
-      'login': '/login',
-      'overview' : '/documents',
-      'document': `/documents/${this.currentView.id}`
-    };
-
-    return mapRoutesName[this.currentView.name];
+    if (this.currentView) {
+      switch (this.currentView.name) {
+        case 'login': return '/login';
+        case 'overview': return '/documents';
+        case 'document': return `/documents/${this.currentView.id}`;
+      }
+    }
   }
 }
