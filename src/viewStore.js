@@ -11,14 +11,8 @@ export default class ViewStore {
     this.fetch = fetch;
   }
 
-  @action showOverview() {
-    let overviewStore = new OverviewStore(this.fetch);
-    overviewStore.getDocuments().then(() => {
-      this.currentView = {
-        name: 'overview',
-        store: overviewStore
-      };
-    });
+  @computed get isAuthenticated() {
+    return this.currentUser !== null;
   }
 
   @action showLogin() {
@@ -27,8 +21,14 @@ export default class ViewStore {
     };
   }
 
-  @computed get isAuthenticated() {
-    return this.currentUser !== null;
+  @action showOverview() {
+    let overviewStore = new OverviewStore(this.fetch);
+    overviewStore.getDocuments().then(() => {
+      this.currentView = {
+        name: 'overview',
+        store: overviewStore
+      };
+    });
   }
 
   @action showDocument(id) {
