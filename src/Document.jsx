@@ -23,10 +23,6 @@ export const DocumentOverview = observer(({ view, store }) => {
 })
 
 export const Document = observer(({ view, store }) => {
-  if (!store.isAuthenticated) {
-    return <Login store={store} afterLogin={() => store.showDocument(view.id)} />;
-  }
-
   switch (view.document.state) {
     case 'pending':
       return <h1>Loading document.. { view.id }</h1>;

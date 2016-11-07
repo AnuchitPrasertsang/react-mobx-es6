@@ -1,4 +1,4 @@
-import { observable, action, computed } from 'mobx';
+import { observable, action, computed, autorun } from 'mobx';
 import { fromPromise } from 'mobx-utils';
 
 export default class ViewStore {
@@ -27,19 +27,22 @@ export default class ViewStore {
   }
 
   @action showDocument(id) {
+    this.requireLogin(() => {
+      this.currentView = {
+        name: 'document',
+        id,
+        document: fromPromise(
+          this.fetch(`http://localhost:3000/documents/${id}`)
+        )
+      }
+    });
+  }
+
+  requireLogin(authorizedAction) {
     if (!this.isAuthenticated) {
       this.showLogin();
-      return;
-    }
-
-    this.currentView = {
-      name: 'document',
-      id,
-      document: fromPromise(
-        this.isAuthenticated
-        ? this.fetch(`http://localhost:3000/documents/${id}`)
-        : Promise.reject('Authentication required')
-      )
+    } else {
+      authorizedAction();
     }
   }
 
@@ -55,10 +58,12 @@ export default class ViewStore {
   }
 
   @computed get currentPath() {
-    switch (this.currentView.name) {
-      case 'overview': return '/documents'
-      case 'document': return `/documents/${this.currentView.id}`
-      case 'login': return '/login'
-    }
+    let mapRoutesName = {
+      'login': '/login',
+      'overview' : '/documents',
+      'document': `/documents/${this.currentView.id}`
+    };
+
+    return mapRoutesName[this.currentView.name];
   }
 }
