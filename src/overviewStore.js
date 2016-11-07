@@ -3,7 +3,6 @@ import { DocumentOverview } from './Document';
 import { observable, action, computed } from 'mobx';
 
 export default class OverviewStore {
-  @observable name = 'overview';
   @observable documents = [];
 
   constructor(fetch) {

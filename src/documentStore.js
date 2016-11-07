@@ -3,7 +3,6 @@ import { Document } from './Document';
 import { observable, action, computed } from 'mobx';
 
 export default class DocumentStore {
-  @observable name = 'document';
   @observable document = null;
 
   constructor(fetch) {
