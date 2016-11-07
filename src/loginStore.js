@@ -1,3 +1,5 @@
+import React from 'react';
+import { Login } from './LoginForm';
 import { observable, action, computed } from 'mobx';
 
 export default class LoginStore {
@@ -9,5 +11,9 @@ export default class LoginStore {
 
   @computed get currentPath() {
     return '/login';
+  }
+
+  getView() {
+    return <Login />;
   }
 }

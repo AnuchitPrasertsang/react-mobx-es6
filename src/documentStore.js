@@ -1,3 +1,5 @@
+import React from 'react';
+import { Document } from './Document';
 import { observable, action, computed } from 'mobx';
 
 export default class DocumentStore {
@@ -17,5 +19,9 @@ export default class DocumentStore {
 
   @computed get currentPath() {
     return `/documents/${this.document.id}`;
+  }
+
+  getView() {
+    return <Document view={this} />;
   }
 }
