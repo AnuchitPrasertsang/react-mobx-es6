@@ -1,6 +1,7 @@
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 
 export default class OverviewStore {
+  @observable name = 'overview';
   @observable documents = [];
 
   constructor(fetch) {
@@ -12,5 +13,9 @@ export default class OverviewStore {
       .then((documents) => {
         this.documents = documents;
       });
+  }
+
+  @computed get currentPath() {
+    return '/documents';
   }
 }

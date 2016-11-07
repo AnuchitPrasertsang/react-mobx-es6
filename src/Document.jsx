@@ -7,7 +7,7 @@ export const DocumentOverview = observer(({ view, store }) => {
     <div>
       <h1>Document overview</h1>
       <ul>
-        { view.store.documents.map(doc => {
+        { view.documents.map(doc => {
             return <li key={doc.id} onClick={() => store.showDocument(doc.id)}><a>{doc.title}</a></li>;
           })
         }
@@ -20,8 +20,8 @@ export const Document = observer(({ view, store }) => {
   return (
     <div>
       <button onClick={() => store.showOverview()}>Overview</button>
-      <h1>{view.store.document.title}</h1>
-      <p>{view.store.document.content}</p>
+      <h1>{view.document.title}</h1>
+      <p>{view.document.content}</p>
     </div>
   );
 });

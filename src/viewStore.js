@@ -1,7 +1,7 @@
 import { observable, action, computed, autorun } from 'mobx';
-import { fromPromise } from 'mobx-utils';
 import OverviewStore from './overviewStore';
 import DocumentStore from './documentStore';
+import LoginStore from './loginStore';
 
 export default class ViewStore {
   @observable currentUser = null;
@@ -13,34 +13,6 @@ export default class ViewStore {
 
   @computed get isAuthenticated() {
     return this.currentUser !== null;
-  }
-
-  @action showLogin() {
-    this.currentView = {
-      name: 'login'
-    };
-  }
-
-  @action showOverview() {
-    let overviewStore = new OverviewStore(this.fetch);
-    overviewStore.getDocuments().then(() => {
-      this.currentView = {
-        name: 'overview',
-        store: overviewStore
-      };
-    });
-  }
-
-  @action showDocument(id) {
-    this.requireLogin(() => {
-      let documentStore = new DocumentStore(this.fetch);
-      documentStore.getDocumentById(id).then(() => {
-        this.currentView = {
-          name: 'document',
-          store: documentStore
-        };
-      });
-    });
   }
 
   requireLogin(authorizedAction) {
@@ -63,12 +35,27 @@ export default class ViewStore {
   }
 
   @computed get currentPath() {
-    if (this.currentView) {
-      switch (this.currentView.name) {
-        case 'login': return '/login';
-        case 'overview': return '/documents';
-        case 'document': return `/documents/${this.currentView.id}`;
-      }
-    }
+    return this.currentView ? this.currentView.currentPath : '';
+  }
+
+  @action showLogin() {
+    let loginStore = new LoginStore(this.fetch);
+    this.currentView = loginStore;
+  }
+
+  @action showOverview() {
+    let overviewStore = new OverviewStore(this.fetch);
+    overviewStore.getDocuments().then(() => {
+      this.currentView = overviewStore;
+    });
+  }
+
+  @action showDocument(id) {
+    this.requireLogin(() => {
+      let documentStore = new DocumentStore(this.fetch);
+      documentStore.getDocumentById(id).then(() => {
+        this.currentView = documentStore;
+      });
+    });
   }
 }

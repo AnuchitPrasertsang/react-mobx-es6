@@ -1,6 +1,7 @@
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 
 export default class DocumentStore {
+  @observable name = 'document';
   @observable document = null;
 
   constructor(fetch) {
@@ -12,5 +13,9 @@ export default class DocumentStore {
       .then((document) => {
         this.document = document;
       });
+  }
+
+  @computed get currentPath() {
+    return `/documents/${this.document.id}`;
   }
 }
