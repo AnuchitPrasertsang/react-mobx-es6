@@ -2,6 +2,10 @@ import React from 'react';
 import { observer, inject } from 'mobx-react';
 import { observable } from 'mobx';
 
+export function getLoginView() {
+  return <Login />;
+}
+
 @inject("store") @observer
 export class Login extends React.Component {
   @observable username = "";

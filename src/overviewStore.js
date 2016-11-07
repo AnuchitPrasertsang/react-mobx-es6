@@ -1,5 +1,4 @@
-import React from 'react';
-import { DocumentOverview } from './Document';
+import { getOverviewView } from './Document';
 import { observable, action, computed } from 'mobx';
 
 export default class OverviewStore {
@@ -21,6 +20,6 @@ export default class OverviewStore {
   }
 
   getView() {
-    return <DocumentOverview view={this} />;
+    return getOverviewView(this);
   }
 }

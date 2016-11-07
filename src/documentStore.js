@@ -1,5 +1,4 @@
-import React from 'react';
-import { Document } from './Document';
+import { getDocumentView } from './Document';
 import { observable, action, computed } from 'mobx';
 
 export default class DocumentStore {
@@ -21,6 +20,6 @@ export default class DocumentStore {
   }
 
   getView() {
-    return <Document view={this} />;
+    return getDocumentView(this);
   }
 }

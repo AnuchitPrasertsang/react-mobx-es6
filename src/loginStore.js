@@ -1,5 +1,4 @@
-import React from 'react';
-import { Login } from './LoginForm';
+import { getLoginView } from './LoginForm';
 import { observable, action, computed } from 'mobx';
 
 export default class LoginStore {
@@ -12,6 +11,6 @@ export default class LoginStore {
   }
 
   getView() {
-    return <Login />;
+    return getLoginView();
   }
 }

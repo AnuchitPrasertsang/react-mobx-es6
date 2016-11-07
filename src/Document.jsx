@@ -2,6 +2,14 @@ import React from 'react';
 import { observer, inject } from 'mobx-react';
 import Login from './LoginForm';
 
+export function getOverviewView(viewStore) {
+  return <DocumentOverview view={viewStore} />
+}
+
+export function getDocumentView(viewStore) {
+  return <Document view={viewStore} />
+}
+
 export const DocumentOverview = inject("store")(observer(({ view, store }) => {
   return (
     <div>
