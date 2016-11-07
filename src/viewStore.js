@@ -1,4 +1,4 @@
-import { observable, action, computed, autorun } from 'mobx';
+import { observable, action, computed } from 'mobx';
 import OverviewStore from './overviewStore';
 import DocumentStore from './documentStore';
 import LoginStore from './loginStore';
