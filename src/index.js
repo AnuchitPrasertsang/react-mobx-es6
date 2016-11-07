@@ -5,11 +5,16 @@ import ViewStore from './viewStore';
 
 import startRouter from './router';
 import simpleFetch from './simpleFetch';
+import { Provider } from 'mobx-react';
 
 const viewStore = new ViewStore(simpleFetch);
 startRouter(viewStore);
 
-ReactDOM.render(<App store={viewStore} />, document.getElementById('root'));
+ReactDOM.render(
+  <Provider store={viewStore}>
+    <App />
+  </Provider>,
+  document.getElementById('root'));
 
 if (module.hot) {
   module.hot.accept();

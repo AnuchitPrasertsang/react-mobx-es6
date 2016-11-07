@@ -1,22 +1,27 @@
 import React from 'react';
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import Login from './LoginForm';
 
-export const DocumentOverview = observer(({ view, store }) => {
+export const DocumentOverview = inject("store")(observer(({ view, store }) => {
   return (
     <div>
       <h1>Document overview</h1>
       <ul>
         { view.documents.map(doc => {
-            return <li key={doc.id} onClick={() => store.showDocument(doc.id)}><a>{doc.title}</a></li>;
+            return (
+              <li key={doc.id}
+                onClick={() => store.showDocument(doc.id)}>
+                <a>{doc.title}</a>
+              </li>
+            );
           })
         }
       </ul>
     </div>
   );
-});
+}));
 
-export const Document = observer(({ view, store }) => {
+export const Document = inject("store")(observer(({ view, store }) => {
   return (
     <div>
       <button onClick={() => store.showOverview()}>Overview</button>
@@ -24,7 +29,7 @@ export const Document = observer(({ view, store }) => {
       <p>{view.document.content}</p>
     </div>
   );
-});
+}));
 
 const Error = ({error}) => <h1>Error: {error}</h1>;
 

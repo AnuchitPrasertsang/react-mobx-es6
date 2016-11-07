@@ -1,8 +1,8 @@
 import React from 'react';
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import { observable } from 'mobx';
 
-@observer
+@inject("store") @observer
 export class Login extends React.Component {
   @observable username = "";
   @observable password = "";

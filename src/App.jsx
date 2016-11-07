@@ -1,26 +1,30 @@
 import React from 'react';
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import { DocumentOverview, Document } from './Document';
 import { Login } from './LoginForm';
 
-export const App = observer(({ store }) => (
-  <div>
-    { renderCurrentView(store) }
-    Current User:
-    { store.isAuthenticated ? store.currentUser.name: 'unknown' }
-  </div>
-));
+@inject("store") @observer
+export class App extends React.Component {
+  render() {
+    let store = this.props.store;
+    return <div>
+      { renderCurrentView(store) }
+      Current User:
+      { store.isAuthenticated ? store.currentUser.name: 'unknown' }
+    </div>;
+  }
+}
 
 function renderCurrentView(store) {
   const view = store.currentView;
   if (view) {
     switch (view.name) {
       case 'login':
-        return <Login store={store} />;
+        return <Login />;
       case 'overview':
-        return <DocumentOverview view={view} store={store} />;
+        return <DocumentOverview view={view} />;
       case 'document':
-        return <Document view={view} store={store} />;
+        return <Document view={view} />;
     }
   }
 }
