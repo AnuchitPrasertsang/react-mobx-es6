@@ -45,17 +45,15 @@ export default class ViewStore {
 
   @action showOverview() {
     let overviewStore = new OverviewStore(this.fetch);
-    overviewStore.getDocuments().then(() => {
-      this.currentView = overviewStore;
-    });
+    overviewStore.getDocuments()
+      .then(action(() => this.currentView = overviewStore));
   }
 
   @action showDocument(id) {
     this.requireLogin(() => {
       let documentStore = new DocumentStore(this.fetch);
-      documentStore.getDocumentById(id).then(() => {
-        this.currentView = documentStore;
-      });
+      documentStore.getDocumentById(id)
+        .then(action(() => this.currentView = documentStore));
     });
   }
 }

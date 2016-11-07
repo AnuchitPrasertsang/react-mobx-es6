@@ -10,9 +10,7 @@ export default class DocumentStore {
 
   @action getDocumentById(id) {
     return this.fetch(`http://localhost:3000/documents/${id}`)
-      .then((document) => {
-        this.document = document;
-      });
+      .then(action(document => this.document = document));
   }
 
   @computed get currentPath() {

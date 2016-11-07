@@ -10,9 +10,7 @@ export default class OverviewStore {
 
   @action getDocuments() {
     return this.fetch('http://localhost:3000/documents')
-      .then((documents) => {
-        this.documents = documents;
-      });
+      .then(action(documents => this.documents = documents));
   }
 
   @computed get currentPath() {

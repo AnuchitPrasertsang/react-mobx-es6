@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 
 export function getLoginView() {
   return <Login />;
@@ -18,23 +18,35 @@ export class Login extends React.Component {
         <h1>Please login</h1>
         <h2>{this.message}</h2>
         <br/>Username
-        <br/><input value={this.username} onChange={e => this.username = e.target.value} />
+        <br/><input value={this.username} onChange={this.onChangeUsername} />
         <br/>Password
-        <br/><input value={this.password} onChange={e => this.password = e.target.value} />
+        <br/><input value={this.password} onChange={this.onChangePassword} />
         <br/><button onClick={this.onLogin}>Login</button>
       </div>
     );
   }
 
-  onLogin = () => {
+  @action onChangeUsername = (e) => {
+    this.username = e.target.value;
+  }
+
+  @action onChangePassword = (e) => {
+    this.password = e.target.value;
+  }
+
+  @action onLogin = () => {
     this.message = "Verifying credentials..."
-    this.props.store.performLogin(this.username, this.password, (authenticated) => {
-      if (authenticated) {
-        this.message = "Login accepted"
-        this.props.store.showOverview();
-      } else {
-        this.message = "Login failed"
+    this.props.store.performLogin(
+      this.username,
+      this.password,
+      (authenticated) => {
+        if (authenticated) {
+          this.message = "Login accepted"
+          this.props.store.showOverview();
+        } else {
+          this.message = "Login failed"
+        }
       }
-    })
+    )
   }
 }

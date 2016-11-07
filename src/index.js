@@ -1,11 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { App } from './App';
-import ViewStore from './viewStore';
+import { Provider } from 'mobx-react';
+import { useStrict } from 'mobx';
 
 import startRouter from './router';
 import simpleFetch from './simpleFetch';
-import { Provider } from 'mobx-react';
+import { App } from './App';
+import ViewStore from './viewStore';
+
+useStrict(true);
 
 const viewStore = new ViewStore(simpleFetch);
 startRouter(viewStore);
