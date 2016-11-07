@@ -1,16 +1,16 @@
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 
 export default class DocumentStore {
-  @observable documents = [];
+  @observable document = null;
 
   constructor(fetch) {
     this.fetch = fetch;
   }
 
-  @action getDocuments() {
-    return this.fetch('http://localhost:3000/documents')
-      .then((documents) => {
-        this.documents = documents;
+  @action getDocumentById(id) {
+    return this.fetch(`http://localhost:3000/documents/${id}`)
+      .then((document) => {
+        this.document = document;
       });
   }
 }

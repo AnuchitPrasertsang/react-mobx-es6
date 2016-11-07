@@ -17,21 +17,13 @@ export const DocumentOverview = observer(({ view, store }) => {
 });
 
 export const Document = observer(({ view, store }) => {
-  switch (view.document.state) {
-    case 'pending':
-      return <h1>Loading document.. { view.id }</h1>;
-    case 'rejected':
-      return <Error error={view.document.reason} />;
-
-    case 'fulfilled':
-      return (
-        <div>
-          <button onClick={() => store.showOverview()}>Overview</button>
-          <h1>{view.document.value.title}</h1>
-          <p>{view.document.value.content}</p>
-        </div>
-      );
-  }
+  return (
+    <div>
+      <button onClick={() => store.showOverview()}>Overview</button>
+      <h1>{view.store.document.title}</h1>
+      <p>{view.store.document.content}</p>
+    </div>
+  );
 });
 
 const Error = ({error}) => <h1>Error: {error}</h1>;

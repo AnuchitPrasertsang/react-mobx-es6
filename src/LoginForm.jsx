@@ -19,7 +19,7 @@ export class Login extends React.Component {
         <br/><input value={this.password} onChange={e => this.password = e.target.value} />
         <br/><button onClick={this.onLogin}>Login</button>
       </div>
-    )
+    );
   }
 
   onLogin = () => {
